@@ -1,0 +1,11 @@
+{
+  "name": "waker",
+  "version": "1.0.0",
+  "description": "Uma CLI que liga máquinas remotamente usando o endereço MAC",
+  "bin": {
+    "waker": "./bin/waker.js"
+  },
+  "scripts": {
+    "start": "node ./bin/waker.js"
+  }
+}
