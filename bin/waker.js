@@ -11,4 +11,11 @@ function wake(macAddress) {
         console.error('Erro: Mac inválido. Use o formato: AA:BB:CC:DD:EE:FF')
         process.exit(1)
     }
+    // Transforma o endereço mac em um Buffer de 6 bytes brutos
+    const hex = Buffer.from(mac, 'hex')
+
+    // Cria 2 Buffer e junta eles, um desses buffer contém 6 bytes como assinatura
+    // Depois vem o outro Buffer, que contém o endereço mac repetido 16 vezes
+    // Esse é o protocolo certo a se seguir
+    const payload = Buffer.concat([Buffer.alloc(6, 0xff), Buffer.alloc(96).fill(hex)])
 }
