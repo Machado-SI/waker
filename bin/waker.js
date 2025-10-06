@@ -18,4 +18,27 @@ function wake(macAddress) {
     // Depois vem o outro Buffer, que contém o endereço mac repetido 16 vezes
     // Esse é o protocolo certo a se seguir
     const payload = Buffer.concat([Buffer.alloc(6, 0xff), Buffer.alloc(96).fill(hex)])
+
+    // Cria um socket UDP
+    const client = dgram.createSocket('udp4')
+
+    // Amarra o socket a um endereço permitindo ele receber datagramas
+    client.bind(() => {
+        // Essencial para Wol
+        client.setBroadcast(true)
+        client.send(payload, 0, payload.length, 9, '255.255.255.255', (err) => {
+            if(err) console.error('Erro:', err)
+            else console.log(`Pacote mágico enviado para: ${macAddress}`)
+            client.close()
+        })
+    })
 }
+
+// Obtém o endereço mac passado na linha de comando
+const mac = process.argv[2]
+if(!mac) {
+    console.log('Uso: waker AA:BB:CC:DD:EE:FF')
+    process.exit(1)
+}
+
+wake(mac)
