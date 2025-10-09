@@ -14,6 +14,20 @@ function getBroadcastAddress() {
     const interfaces = os.networkInterfaces()
     for(const name of Object.keys(interfaces)) {
         const net = interfaces[name]
+
+        // Intera sobre cada enderço da conexão
+        for(const iface of net) {
+            // Pula endereços que não são IPv4
+            if(iface.internal || iface.family !== 'IPv4') continue
+
+            // Desestruturação de array para pegar o endereço IP e a máscara de sub-rede
+            const [addr, mask] = [iface.address, iface.netmask]
+            if(!addr || !mask) continue
+
+            // Converte o IP e a máscara de sub-rede em strings usando a função nativa do js Number
+            const ip = addr.split('.').map(Number)
+            const subNet = mask.split('.').map(Number)
+        }
     }
 }
 
