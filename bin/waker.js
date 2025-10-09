@@ -1,6 +1,21 @@
 #!/usr/bin/env node
 
 const dgram = require('dgram')
+// Vamos usar esse módulo nativo do node para pegar endereço do broadcast
+const os = require('os')
+
+function getBroadcastAddress() {
+    // A constante interfaces armazena um Objeto que mapeia os nomes de todas as suas conexões de rede ativas (como 'Wi-Fi', 'Ethernet', 'Loopback', etc.) para um Array que lista todos os endereços IP (IPv4, IPv6) e detalhes técnicos encontrados em cada uma dessas conexões. 
+
+    // Procuramos 3 informações que conencidem com o que queremos:
+    // 1. Que o endereço seja IPv4 (family: 'IPv4')
+    // 2. Que o endereço não seja interno (internal: false)
+    // 3. Que a máscara de sub-rede não seja um endereço de erro
+    const interfaces = os.networkInterfaces()
+    for(const name of Object.keys(interfaces)) {
+        const net = interfaces[name]
+    }
+}
 
 function wake(macAddress) {
     // Pega o endereço mac e tira todos os -
