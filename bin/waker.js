@@ -35,6 +35,16 @@ function ipToNumber(ip) {
     return ip.split('.').reduce((acc , octet) => (acc << 8) + parseInt(octet, 10), 0)
 }
 
+// Converte um número inteiro de 32 bits para um endereço IPV4 no formato string
+function numberToIp(num) {
+    return [
+        (num >>> 24) & 0xFF,
+        (num >>> 16) & 0xFF,
+        (num >>> 8) & 0xFF,
+        num & 0xFF
+    ].join('.')
+}
+
 function wake(macAddress) {
     // Pega o endereço mac e tira todos os -
     const mac = macAddress.replace(/[:\-]/g, '')
