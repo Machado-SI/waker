@@ -24,11 +24,10 @@ function getBroadcastAddress() {
             const [addr, mask] = [iface.address, iface.netmask]
             if(!addr || !mask) continue
 
-            // Converte o IP e a máscara de sub-rede em strings usando a função nativa do js Number
-            const ip = addr.split('.').map(Number)
-            const subNet = mask.split('.').map(Number)
         }
     }
+    // Se nenhuma interface válida for encontrada. retorna o broadcast padrão
+    return '255.255.255.255'
 }
 
 function wake(macAddress) {
@@ -40,6 +39,11 @@ function wake(macAddress) {
         console.error('Erro: Mac inválido. Use o formato: AA:BB:CC:DD:EE:FF')
         process.exit(1)
     }
+
+    // Chama a função que calcula o endereço de broadcast
+    const broadcast = getBroadcastAddress()
+    console.log('Endereço broadcast:', getBroadcastAddress())
+
     // Transforma o endereço mac em um Buffer de 6 bytes brutos
     const hex = Buffer.from(mac, 'hex')
 
@@ -55,7 +59,7 @@ function wake(macAddress) {
     client.bind(() => {
         // Essencial para Wol
         client.setBroadcast(true)
-        client.send(payload, 0, payload.length, 9, '255.255.255.255', (err) => {
+        client.send(payload, 0, payload.length, 9, broadcast, (err) => {
             if(err) console.error('Erro:', err)
             else console.log(`Pacote mágico enviado para: ${macAddress}`)
             client.close()
