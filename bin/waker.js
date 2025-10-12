@@ -30,6 +30,11 @@ function getBroadcastAddress() {
     return '255.255.255.255'
 }
 
+// Converte um endereço IPV4 no formato string para único número inteiro de 32 bits
+function ipToNumber(ip) {
+    return ip.split('.').reduce((acc , octet) => (acc << 8) + parseInt(octet, 10), 0)
+}
+
 function wake(macAddress) {
     // Pega o endereço mac e tira todos os -
     const mac = macAddress.replace(/[:\-]/g, '')
