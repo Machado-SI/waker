@@ -24,6 +24,21 @@ function getBroadcastAddress() {
             const [addr, mask] = [iface.address, iface.netmask]
             if(!addr || !mask) continue
 
+            // Converte os endereços IP e a máscara de sub-rede para números inteiros de 32 bits
+            const ipNum = ipToNumber(addr)
+            const maskNum = ipToNumber(mask)
+
+            // Calcula o endereço de broadcast
+            // Regras:
+            // 1. O endereço de rede é calculado com IP & SubnetMask
+            // 2. A márcara dde hosto é o inverso dda máscara de sub-rede
+            // 3. O broadcast é calculado com Rede | HostMask
+            const networkNum = ipNum & maskNum
+            const hostmask = ~maskNum & 0xFFFFFFFF
+            const broadcastNum = networkNum | hostmask
+
+            // Converte o número de broadcast de volta para o formato de IP
+            return numberToIp(broadcastNum)
         }
     }
     // Se nenhuma interface válida for encontrada. retorna o broadcast padrão
