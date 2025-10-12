@@ -27,13 +27,14 @@ npm install -g
 ## Executar
 
 ### Endereço MAC
-Caso não saiba seu endereço mac execute no terminal 
+Caso não saiba seu endereço mac execute no terminal
 ```bash
 ipconfig /all
 ```
+Procure por Endereço Físico
 
 ### Comando
-Depois de verificar tudo execute o comando abaixo preenchendo com seu endereço MAC de forma correta
+Depois execute o comando abaixo preenchendo com seu endereço MAC de forma correta
 
 ```bash
 waker AA:BB:CC:DD:EE:FF
